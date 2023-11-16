@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import styles from './List.module.scss'
-import QuestionCard from '../components/QesionCard'
+import QuestionCard from '../../components/QesionCard'
 const rowQuestion = [
   {
     _id: 'q1',

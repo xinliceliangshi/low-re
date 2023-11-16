@@ -1,5 +1,5 @@
 import React from 'react'
-import List from './pages/List'
+import List from '../src/pages/manager/List'
 function App() {
   return (
     <div className="App">
