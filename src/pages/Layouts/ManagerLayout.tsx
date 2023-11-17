@@ -16,7 +16,7 @@ const ManagerLayout: FC = () => {
           </Button>
           <Divider style={{ borderTop: 'transparent' }} />
           <Button
-            type="primary"
+            type={pathname.startsWith('/manager/list') ? 'default' : 'text'}
             size="large"
             icon={<BarsOutlined />}
             onClick={() => nav('/manager/list')}
@@ -24,7 +24,7 @@ const ManagerLayout: FC = () => {
             我的问卷
           </Button>
           <Button
-            type="primary"
+            type={pathname.startsWith('/manager/star') ? 'default' : 'text'}
             size="large"
             icon={<StarOutlined />}
             onClick={() => nav('/manager/star')}
@@ -32,7 +32,7 @@ const ManagerLayout: FC = () => {
             收藏问卷
           </Button>
           <Button
-            type="primary"
+            type={pathname.startsWith('/manager/trash') ? 'default' : 'text'}
             size="large"
             icon={<DeleteOutlined />}
             onClick={() => nav('/manager/trash')}

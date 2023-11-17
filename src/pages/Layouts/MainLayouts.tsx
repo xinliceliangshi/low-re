@@ -3,11 +3,14 @@ import { Outlet } from 'react-router-dom'
 import { Layout, Space } from 'antd'
 const { Header, Footer, Sider, Content } = Layout
 import styles from './MainLayout.module.scss'
+import Logo from '../../components/Logo'
 const MainLayout: FC = () => {
   return (
     <Layout>
       <Header className={styles.header}>
-        <div className={styles.left}>Logo</div>
+        <div className={styles.left}>
+          <Logo />
+        </div>
         <div className={styles.right}>登录</div>
       </Header>
       <Layout className={styles.main}>
