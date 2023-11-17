@@ -2,6 +2,7 @@ import React from 'react'
 // import List from '../src/pages/manager/List'
 import { RouterProvider } from 'react-router-dom'
 import routerConfig from './router'
+import 'antd/dist/reset.css'
 function App() {
   return <RouterProvider router={routerConfig}></RouterProvider>
 }

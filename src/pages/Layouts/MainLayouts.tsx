@@ -1,14 +1,14 @@
 import React, { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import styles from './MainLayout.module.scss'
+// import styles from './MainLayout.module.scss'
 const MainLayouts: FC = () => {
   return (
     <>
-      <div className={styles.container}>MainLayout header</div>
-      <div className={styles.left}>
+      <div>MainLayout header</div>
+      <div>
         <Outlet />
       </div>
-      <div className={styles.right}>MainLayout footer</div>
+      <div>MainLayout footer</div>
     </>
   )
 }

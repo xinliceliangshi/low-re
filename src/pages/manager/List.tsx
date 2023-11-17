@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import styles from './List.module.scss'
 import QuestionCard from '../../components/QesionCard'
+import { useSearchParams } from 'react-router-dom'
 const rowQuestion = [
   {
     _id: 'q1',
@@ -22,6 +23,7 @@ const rowQuestion = [
   },
 ]
 const List: FC = () => {
+  const [searchParams] = useSearchParams()
   const [qestionList, setQestionList] = useState(rowQuestion)
   return (
     <>
