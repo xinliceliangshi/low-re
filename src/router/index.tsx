@@ -40,7 +40,7 @@ const routerConfig = createBrowserRouter([
     element: <QuestionLayout />,
     children: [
       { path: 'stat/:id', element: <Stat /> },
-      { path: 'edit/id', element: <Edit /> },
+      { path: 'edit/:id', element: <Edit /> },
     ],
   },
 ])

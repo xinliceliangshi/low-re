@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
 import QuestionCard from '../../components/QesionCard'
 import { useSearchParams } from 'react-router-dom'
 const rowQuestion = [
@@ -34,12 +34,13 @@ const List: FC = () => {
         <div className={styles.right}>（搜索）</div>
       </div>
       <div className={styles.content}>
-        {qestionList.map(q => {
-          const { _id } = q
-          return <QuestionCard key={_id} {...q} />
-        })}
+        {qestionList.length > 0 &&
+          qestionList.map(q => {
+            const { _id } = q
+            return <QuestionCard key={_id} {...q} />
+          })}
       </div>
-      <div className={styles.footer}>底部</div>
+      <div className={styles.footer}>loadMore... 上划加载更多...</div>
     </>
   )
 }
