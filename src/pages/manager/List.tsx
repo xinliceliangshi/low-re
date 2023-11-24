@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
 import QuestionCard from '../../components/QesionCard'
+import { Typography } from 'antd'
+import { useTitle } from 'ahooks'
 import { useSearchParams } from 'react-router-dom'
 const rowQuestion = [
   {
@@ -22,14 +24,16 @@ const rowQuestion = [
     updatedAt: new Date(),
   },
 ]
+const { Title } = Typography
 const List: FC = () => {
+  useTitle('我的问卷')
   const [searchParams] = useSearchParams()
   const [qestionList, setQestionList] = useState(rowQuestion)
   return (
     <>
       <div className={styles.header}>
         <div className={styles.left}>
-          <h3>我的问卷</h3>
+          <Title level={3}>我的问卷</Title>
         </div>
         <div className={styles.right}>（搜索）</div>
       </div>

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Button, Space, Divider, Tag } from 'antd'
+import { Button, Space, Divider, Tag, Modal, message } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import {
   EditOutlined,
@@ -20,7 +20,23 @@ type PropType = {
 }
 const QuestionCard: FC<PropType> = (props: PropType) => {
   const nav = useNavigate()
+  const { confirm } = Modal
   const { _id, title, isPublished, isStar, answerCount, createdAt, updatedAt } = props
+  function duplicate() {
+    confirm({
+      title: '确认复制问卷？',
+      icon: <CopyOutlined />,
+      onOk: () => {},
+    })
+  }
+  function remove() {
+    // console.log('remove')
+    confirm({
+      title: '确认删除问卷？',
+      icon: <DeleteOutlined />,
+      onOk: () => {},
+    })
+  }
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -33,14 +49,14 @@ const QuestionCard: FC<PropType> = (props: PropType) => {
           </Link>
         </div>
         <div className={styles.right}>
-          {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <span>未发布</span>}
+          {isPublished ? <Tag color="processing">已发布</Tag> : <Tag>未发布</Tag>}
           &nbsp;
           <span>答卷：{answerCount}</span>
           &nbsp;
           <span>{createdAt}</span>
         </div>
       </div>
-      <Divider />
+      <Divider style={{ margin: '12px' }} />
       <div className={styles['button-container']}>
         <div className={styles.left}>
           <Space>
@@ -68,10 +84,10 @@ const QuestionCard: FC<PropType> = (props: PropType) => {
             <Button type="text" icon={<StarOutlined />} size="small">
               {isStar ? '取消星标' : '星标'}
             </Button>
-            <Button type="text" icon={<DeleteOutlined />} size="small">
+            <Button type="text" icon={<DeleteOutlined />} size="small" onClick={duplicate}>
               复制
             </Button>
-            <Button type="text" icon={<DeleteOutlined />} size="small">
+            <Button type="text" icon={<DeleteOutlined />} size="small" onClick={remove}>
               删除
             </Button>
           </Space>
