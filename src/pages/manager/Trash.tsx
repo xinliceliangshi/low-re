@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
-import { Typography, Empty } from 'antd'
+import React, { FC, useState } from 'react'
+import { Typography, Empty, Table, Tag } from 'antd'
 import { useTitle } from 'ahooks'
 import styles from './common.module.scss'
 const { Title } = Typography
+import ListSearch from '../../components/ListSearch'
 const rowQuestion = [
   {
     _id: 'q1',
@@ -23,7 +24,49 @@ const rowQuestion = [
     updatedAt: new Date(),
   },
 ]
+
 const Trash: FC = () => {
-  return <div>Trash</div>
+  useTitle('回收站')
+  const [qestionList, setQestionList] = useState(rowQuestion)
+  const tableColumns = [
+    {
+      title: '问卷标题',
+      dataIndex: 'title',
+    },
+    {
+      title: '是否发布',
+      dataIndex: 'isPublished',
+      render: (isPublished: boolean) => {
+        return isPublished ? <Tag color="processing">已发布</Tag> : <Tag>未发布</Tag>
+      },
+    },
+    {
+      title: '答卷',
+      dataIndex: 'answerCount',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+    },
+  ]
+  return (
+    <>
+      <div className={styles.header}>
+        <div className={styles.left}>
+          <Title level={3}>星标问卷</Title>
+        </div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
+      </div>
+      <div className={styles.content}>
+        {qestionList.length === 0 && <Empty description="暂无数据" />}
+        {qestionList.length > 0 && (
+          <Table columns={tableColumns} dataSource={qestionList} rowKey="_id" />
+        )}
+      </div>
+      <div className={styles.footer}>分页</div>
+    </>
+  )
 }
 export default Trash
