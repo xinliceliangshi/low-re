@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Typography } from 'antd'
 const { Title, Paragraph } = Typography
@@ -12,6 +12,13 @@ const Home: FC = () => {
   //     search: '?name=123',
   //   })
   // }
+  useEffect(() => {
+    fetch('/api/test')
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+      })
+  }, [])
   return (
     <div className={styles.container}>
       <div className={styles.info}>
