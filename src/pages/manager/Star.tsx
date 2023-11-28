@@ -1,35 +1,38 @@
 import React, { FC, useState } from 'react'
-import { Typography, Empty } from 'antd'
+import { Typography, Empty, Spin, Pagination } from 'antd'
 import { useTitle } from 'ahooks'
 import styles from './common.module.scss'
 import { useSearchParams } from 'react-router-dom'
 import QuestionCard from '../../components/QesionCard'
 const { Title } = Typography
 import ListSearch from '../../components/ListSearch'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 // import { useSearchParams } from 'react-router-dom'
-const rowQuestion = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: true,
-    isStar: false,
-    answerCount: 0,
-    createdAt: '2020-11-01',
-    updatedAt: new Date(),
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: false,
-    isStar: true,
-    answerCount: 5,
-    createdAt: '2020-11-01',
-    updatedAt: new Date(),
-  },
-]
+// const rowQuestion = [
+//   {
+//     _id: 'q1',
+//     title: '问卷1',
+//     isPublished: true,
+//     isStar: false,
+//     answerCount: 0,
+//     createdAt: '2020-11-01',
+//     updatedAt: new Date(),
+//   },
+//   {
+//     _id: 'q2',
+//     title: '问卷2',
+//     isPublished: false,
+//     isStar: true,
+//     answerCount: 5,
+//     createdAt: '2020-11-01',
+//     updatedAt: new Date(),
+//   },
+// ]
 const Star: FC = () => {
   useTitle('我的收藏')
-  const [qestionList, setQestionList] = useState(rowQuestion)
+  // const [qestionList, setQestionList] = useState(rowQuestion)
+  const { data = {}, loading } = useLoadQuestionListData({ isStar: true })
+  const { list = [], total = 0 } = data
   return (
     <>
       <div className={styles.header}>
@@ -41,14 +44,19 @@ const Star: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {qestionList.length === 0 && <Empty description="暂无数据" />}
-        {qestionList.length > 0 &&
-          qestionList.map(q => {
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {list.length > 0 &&
+          list.map((q: any) => {
             const { _id } = q
             return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.footer}></div>
     </>
   )
 }

@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react'
-import { Typography, Empty, Table, Tag } from 'antd'
+import { Typography, Empty, Table, Tag, Button } from 'antd'
 import { useTitle } from 'ahooks'
 import styles from './common.module.scss'
 const { Title } = Typography
 import ListSearch from '../../components/ListSearch'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 const rowQuestion = [
   {
     _id: 'q1',
@@ -49,6 +50,16 @@ const Trash: FC = () => {
       dataIndex: 'createdAt',
     },
   ]
+  const { data = {}, loading } = useLoadQuestionListData({ isStar: true })
+  const { list = [], total = 0 } = data
+
+  const TableElem = (
+    <>
+      <div>
+        <Button>恢复</Button>
+      </div>
+    </>
+  )
   return (
     <>
       <div className={styles.header}>
@@ -60,10 +71,8 @@ const Trash: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {qestionList.length === 0 && <Empty description="暂无数据" />}
-        {qestionList.length > 0 && (
-          <Table columns={tableColumns} dataSource={qestionList} rowKey="_id" />
-        )}
+        {list.length === 0 && <Empty description="暂无数据" />}
+        {list.length > 0 && <Table columns={tableColumns} dataSource={list} rowKey="_id" />}
       </div>
       <div className={styles.footer}>分页</div>
     </>
