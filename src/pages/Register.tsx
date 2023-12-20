@@ -5,13 +5,31 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useRequest } from 'ahooks'
 import { LOGIN_PATHNAME } from '../router'
 import styles from './Register.module.scss'
-
+import { Value } from 'sass'
+import { registerService } from '../services/user'
 const { Title } = Typography
 
 const Register: FC = () => {
   const nav = useNavigate()
-
-  const onFinish = (values: any) => {}
+  const { run } = useRequest(
+    async value => {
+      const { username, password, nickname } = value
+      await registerService(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('注册成功')
+        nav(LOGIN_PATHNAME)
+      },
+      onError: error => {
+        message.error(error.message)
+      },
+    }
+  )
+  const onFinish = (values: any) => {
+    run(values)
+  }
 
   return (
     <div className={styles.container}>

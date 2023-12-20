@@ -3,10 +3,11 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { useRequest } from 'ahooks'
-import { REGISTER_PATHNAME } from '../router'
+import { REGISTER_PATHNAME, MANAGER_LIST_PATHNAME } from '../router'
 // import { loginService } from '../services/user'
 // import { setToken } from '../utils/user-token'
 import styles from './Login.module.scss'
+import { loginService } from '../services/user'
 
 const { Title } = Typography
 
@@ -39,7 +40,23 @@ const Login: FC = () => {
     const { username, password } = getUserInfoFromStorage()
     form.setFieldsValue({ username, password })
   }, [])
-
+  const { run } = useRequest(
+    async (username: string, password: string) => {
+      const data = await loginService(username, password)
+      console.log(data)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('登录成功')
+        nav('/')
+      },
+      onError: error => {
+        message.error(error.message)
+      },
+    }
+  )
   const onFinish = (values: any) => {
     const { username, password, remember } = values || {}
 

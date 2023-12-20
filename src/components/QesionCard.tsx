@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Button, Space, Divider, Tag, Modal, message } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
+import { duplicateQuestionService, updateQuestionService } from '../services/question'
 import {
   EditOutlined,
   CopyOutlined,
@@ -9,6 +10,7 @@ import {
   StarOutlined,
 } from '@ant-design/icons'
 import styles from './QesionCard.module.scss'
+import { useRequest } from 'ahooks'
 type PropType = {
   _id: string
   title: string
@@ -26,16 +28,56 @@ const QuestionCard: FC<PropType> = (props: PropType) => {
     confirm({
       title: '确认复制问卷？',
       icon: <CopyOutlined />,
-      onOk: () => {},
+      onOk: () => {
+        changeduplicate()
+      },
     })
   }
+  const [isDeleteState, setIsDeleteState] = useState(false)
+  const { loading: deleteloading, run: deleteQuestion } = useRequest(
+    async () => await updateQuestionService(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('操作成功')
+        setIsDeleteState(true)
+      },
+    }
+  )
   function remove() {
     // console.log('remove')
     confirm({
       title: '确认删除问卷？',
       icon: <DeleteOutlined />,
-      onOk: () => {},
+      onOk: deleteQuestion,
     })
+  }
+
+  const [isStrState, setIsStrState] = useState(isStar)
+  const { loading: changeStarloading, run: changeStar } = useRequest(
+    async () => {
+      await updateQuestionService(_id, { isStar: !isStrState })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsStrState(!isStrState)
+        message.success('操作成功')
+      },
+    }
+  )
+  const { loading: duplicateloading, run: changeduplicate } = useRequest(
+    async () => await duplicateQuestionService(_id),
+    {
+      manual: true,
+      onSuccess: (res: any) => {
+        message.success('操作成功')
+        nav(`/question/edit/${res.id}`)
+      },
+    }
+  )
+  if (isDeleteState) {
+    return null
   }
   return (
     <div className={styles.container}>
@@ -81,8 +123,14 @@ const QuestionCard: FC<PropType> = (props: PropType) => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button type="text" icon={<StarOutlined />} size="small">
-              {isStar ? '取消星标' : '星标'}
+            <Button
+              type="text"
+              icon={<StarOutlined />}
+              size="small"
+              onClick={changeStar}
+              disabled={changeStarloading}
+            >
+              {isStrState ? '取消星标' : '星标'}
             </Button>
             <Button type="text" icon={<DeleteOutlined />} size="small" onClick={duplicate}>
               复制
