@@ -4,11 +4,11 @@ import { Outlet } from 'react-router-dom'
 const QuestionLayout: FC = () => {
   return (
     <>
-      <div>Question header</div>
+      {/* <div>Question header</div> */}
       <div>
         <Outlet />
       </div>
-      <div>Question footer</div>
+      {/* <div>Question footer</div> */}
     </>
   )
 }
