@@ -50,7 +50,7 @@ const Login: FC = () => {
       manual: true,
       onSuccess: () => {
         message.success('登录成功')
-        nav('/')
+        nav(MANAGER_LIST_PATHNAME)
       },
       onError: error => {
         message.error(error.message)
@@ -59,7 +59,7 @@ const Login: FC = () => {
   )
   const onFinish = (values: any) => {
     const { username, password, remember } = values || {}
-
+    run(username, password)
     if (remember) {
       rememberUser(username, password)
     } else {
